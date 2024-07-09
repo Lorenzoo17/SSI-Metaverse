@@ -1,0 +1,1 @@
+D:\Mascia\Programmi\Progetti Unity\Hololens_MRTK\Library\Bee\Android\Prj\IL2CPP\Gradle\unityLibrary\build\intermediates\cxx\Debug\5646b34m\obj\arm64-v8a
