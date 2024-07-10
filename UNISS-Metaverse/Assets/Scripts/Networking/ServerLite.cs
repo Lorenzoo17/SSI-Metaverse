@@ -99,12 +99,12 @@ public class ServerLite : MonoBehaviour {
             }
             else if (packetType == NetworkDataType.VcRequest) {
                 int clientToSendRequest = reader.GetInt();
-                JsonClasses.VerifiableCredentialType credentialToAsk = (JsonClasses.VerifiableCredentialType) reader.GetInt();
+                JsonClasses.VerifiableCredentialType credentialToAsk = (JsonClasses.VerifiableCredentialType)reader.GetInt();
 
                 if (enableDebug) Debug.Log($"Send {credentialToAsk.ToString()} request to {clientToSendRequest}");
 
-                foreach(NetPeer client in peersConnected) {
-                    if(client.Id == clientToSendRequest) { // Looking for the client with the same ID of the one whose vc is requested
+                foreach (NetPeer client in peersConnected) {
+                    if (client.Id == clientToSendRequest) { // Looking for the client with the same ID of the one whose vc is requested
 
                         int clientWhoSentRequest = peer.Id; // CLIENT WHO SENT THE REQUEST!!!!!!!!!!
                         NetDataWriter writer = new NetDataWriter();
@@ -126,8 +126,8 @@ public class ServerLite : MonoBehaviour {
                 writer.Put(clientWhoSentResponse);
                 writer.Put(vcToForward);
 
-                foreach(NetPeer client in peersConnected) {
-                    if(client.Id == clientToForwardData) {
+                foreach (NetPeer client in peersConnected) {
+                    if (client.Id == clientToForwardData) {
                         SendDataClient(client, writer, DeliveryMethod.ReliableUnordered);
                     }
                 }
@@ -158,7 +158,7 @@ public class ServerLite : MonoBehaviour {
     }
 
     private void OnDisable() {
-        if(server != null && server.IsRunning)
+        if (server != null && server.IsRunning)
             server.Stop();
     }
 

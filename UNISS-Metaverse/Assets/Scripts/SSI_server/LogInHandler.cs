@@ -22,7 +22,7 @@ public class LogInHandler : MonoBehaviour {
             VRKeyboard.Instance.SetInputField(usernameField); // To let user write in the correct textfield
 
             VRKeyboard.Instance.SetWhatToDoWhenEnterIsPressed(() => {
-            UsersDbRequestHandler.Instance.LogInRequest(usernameField.text, passwordField.text, DisableLogInWindow); // When enter in the virtual keyboard is pressed, a LogInRequest is done (the action passed is the DisableLogInWindow, therefore if the login works the login window will be disable
+                UsersDbRequestHandler.Instance.LogInRequest(usernameField.text, passwordField.text, DisableLogInWindow); // When enter in the virtual keyboard is pressed, a LogInRequest is done (the action passed is the DisableLogInWindow, therefore if the login works the login window will be disable
             });
         });
         passwordField.onSelect.AddListener((x) => {

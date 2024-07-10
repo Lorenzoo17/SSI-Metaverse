@@ -66,19 +66,22 @@ public class SSIUserCommunication : MonoBehaviour {
 
             for(int i = 0; i < credentialSubjectFields.Length; i++) {
                 if (toggleButtons[i].IsToggled) {
-                    newCredentialSubjectString += credentialSubjectFields[i];
-                    if(i < credentialSubjectFields.Length - 1) {
-                        newCredentialSubjectString += ",\n";
-                    }
-                    else {
-                        newCredentialSubjectString += "\n";
-                    }
+                    newCredentialSubjectString += credentialSubjectFields[i] + ",\n";
                 }
             }
 
             Debug.Log("NEW CS : " + newCredentialSubjectString);
 
-            localClient.SendVcStringResponseToSpecificClient(clientToRespond, currentOriginalVc.GetSimpleString_FillSubject(newCredentialSubjectString)); // Use ClientLite.cs to send the response
+            // Delete last comma
+            int penultimateCharIndex = newCredentialSubjectString.Length - 2;
+            newCredentialSubjectString = newCredentialSubjectString.Remove(penultimateCharIndex, 1);
+
+            string jsonString = currentOriginalVc.GetJsonString(newCredentialSubjectString);
+            // Debug.Log(jsonString);
+            // StandardVerifiableCredential svc = JsonUtility.FromJson<StandardVerifiableCredential>(jsonString);
+            // Debug.Log(svc.issuanceDate);
+
+            localClient.SendVcStringResponseToSpecificClient(clientToRespond, jsonString); // Use ClientLite.cs to send the response
             // Disable select window
             ClearSelectWindow();
             selectWindow.gameObject.SetActive(false);
@@ -167,6 +170,8 @@ public class SSIUserCommunication : MonoBehaviour {
     }
     public void SetUpVerifiableCredentialWindow(string verifiableCredentialToShowString) {
         verifiableCredentialWindow.gameObject.SetActive(true);
-        verifiableCredentialWindow.SetVcText(verifiableCredentialToShowString);
+        StandardVerifiableCredential svc = JsonUtility.FromJson<StandardVerifiableCredential>(verifiableCredentialToShowString);
+        // verifiableCredentialWindow.SetVcText(verifiableCredentialToShowString);
+        verifiableCredentialWindow.SetVcText(svc.credentialSubject.ToString());
     }
 }

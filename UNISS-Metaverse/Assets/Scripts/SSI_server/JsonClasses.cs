@@ -50,6 +50,43 @@ namespace JsonClasses {
         public string GetSimpleString_FillSubject(string credentialSubjectContent) {
             return $"Issuer : {issuer.id}\nType : [{type[0]},{type[1]}]\nIssuanceDate : {issuanceDate}\nCredentialSubject : [{credentialSubjectContent}]"; // Proof must be inserted too
         }
+
+        public string GetJsonString(string credentialSubjectContent) {
+            string jsonString = string.Empty;
+            /*
+            jsonString = "{\n" +
+                "credentialSubject: {\n" +
+                credentialSubjectContent +
+                "},\n" +
+                "issuer: {\n" +
+                "id: " + issuer.id + "\n" +
+                "},\n" +
+                "type: [" + type[0] + ", " + type[1] + "],\n" +
+                "issuanceDate: " + "" + issuanceDate + ",\n" +
+                "proof: {\n" +
+                "type: " + proof.type + ",\n" +
+                "jwt: " + proof.jwt + "\n" +
+                "}\n" +
+                "}";
+            */
+            jsonString = "{\n" +
+                "\"credentialSubject\": {\n" +
+                credentialSubjectContent +
+                "},\n" +
+                "\"issuer\": {\n" +
+                "\"id\": \"" + issuer.id + "\"\n" +
+                "},\n" +
+                "\"type\": [\"" + type[0] + "\", \"" + type[1] + "\"],\n" +
+                "\"issuanceDate\": " + "\"" + issuanceDate + "\",\n" +
+                "\"proof\": {\n" +
+                "\"type\": \"" + proof.type + "\",\n" +
+                "\"jwt\": \"" + proof.jwt + "\"\n" +
+                "}\n" +
+                "}";
+            
+
+            return jsonString;
+        }
     }
 
     // ---------------------------------- COMPONENTS OF MAIN STRUCTURE
@@ -102,28 +139,28 @@ namespace JsonClasses {
         }
 
         public override string ToString() {
-            var result = "CredentialSubject:\n";
+            var result = "credentialSubject:\n";
 
             if (!string.IsNullOrEmpty(id))
-                result += $"ID: {id}\n";
+                result += $"\"id\": \"{id}\"\n";
 
             if (!string.IsNullOrEmpty(you))
-                result += $"You: {you}\n";
+                result += $"\"you\": \"{you}\"\n";
 
             if (age != 0)
-                result += $"Age: {age}\n";
+                result += $"\"age\": {age}\n";
 
             if (!string.IsNullOrEmpty(license))
-                result += $"License: {license}\n";
+                result += $"\"license\": \"{license}\"\n";
 
             if (heartbeat != 0)
-                result += $"Heartbeat: {heartbeat}\n";
+                result += $"\"heartbeat\": {heartbeat}\n";
 
             if (systolicPressure != 0)
-                result += $"Systolic Pressure: {systolicPressure}\n";
+                result += $"\"systolicPressure\": {systolicPressure}\n";
 
             if (diastolicPressure != 0)
-                result += $"Diastolic Pressure: {diastolicPressure}\n";
+                result += $"\"diastolicPressure\": {diastolicPressure}\n";
 
             return result.TrimEnd();
         }
