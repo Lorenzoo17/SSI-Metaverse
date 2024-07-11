@@ -2340,7 +2340,7 @@ MonoBehaviour:
   testRightArm: {fileID: 6441559869132645019}
   testLeftArm: {fileID: 7434572612113406690}
   requestButton: {fileID: 7982322184563370155}
-  avatarRenderer: {fileID: 4706757145244589357}
+  materialRenderer: {fileID: 4706757145244589357}
 --- !u!1 &4279312758075711700
 GameObject:
   m_ObjectHideFlags: 0

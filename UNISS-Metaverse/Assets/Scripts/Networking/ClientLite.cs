@@ -25,6 +25,14 @@ public class ClientLite : MonoBehaviour {
     [SerializeField] private Transform clientLeftArm;
 
     private float currentTransmissionTime;
+
+    [SerializeField] private Material[] avatarTypeMaterials;
+    private int localClientMaterialIndex;
+
+    public Material GetLocalAvatarType() {
+        return avatarTypeMaterials[localClientMaterialIndex];
+    }
+
     public void StartClient() {
         listener = new();
         client = new(listener);
@@ -37,6 +45,11 @@ public class ClientLite : MonoBehaviour {
             serverPeer = peer;
             if (enableDebug) Debug.Log("Client connected to " + serverPeer.Address + ", " + serverPeer.Port);
             // GameObject test = Instantiate(test_go, new Vector3(0, 10f, 5f), Quaternion.identity);
+
+            // Send Server information about client avatar
+            // For now avatar type assigned randomly
+            localClientMaterialIndex = Random.Range(0, avatarTypeMaterials.Length);
+            SendAvatarType(localClientMaterialIndex);
         };
 
         listener.NetworkReceiveEvent += (NetPeer peer, NetPacketReader reader, byte channel, DeliveryMethod deliveryMethod) => {
@@ -126,6 +139,12 @@ public class ClientLite : MonoBehaviour {
                 string vcStringReceived = reader.GetString();
 
                 SSIUserCommunication.Instance.SetUpVerifiableCredentialWindow(vcStringReceived); // In order to show the verifiable credential just received
+            }
+            else if (packetType == NetworkDataType.AvatarType) {
+                int clientAvatarOwnerID = reader.GetInt();
+                int avatarTypeMaterialIndex = reader.GetInt();
+
+                ReceivedAvatarType(clientAvatarOwnerID, avatarTypeMaterialIndex);
             }
         };
     }
@@ -233,5 +252,32 @@ public class ClientLite : MonoBehaviour {
         writer.Put(vcStringToSend); // the full credential
 
         SendData(writer, DeliveryMethod.ReliableUnordered);
+    }
+
+    // ------------- Avatar methods --------------
+
+    public void SendAvatarType(int avatarIndex) {
+        NetworkDataType packetType = NetworkDataType.AvatarType;
+
+        NetDataWriter writer = new NetDataWriter();
+        writer.Put((int)packetType);
+        writer.Put(avatarIndex);
+
+        SendData(writer, DeliveryMethod.ReliableUnordered);
+    }
+
+    public void ReceivedAvatarType(int clientAvatarOwnerID, int avatarMaterialIndex) {
+        RemoteClientSync[] remoteClients = FindObjectsOfType<RemoteClientSync>();
+
+        Debug.Log($"Client {clientAvatarOwnerID} has avatar {avatarMaterialIndex}");
+
+        if(remoteClients.Length > 0) {
+            foreach(RemoteClientSync client in remoteClients) {
+                if(client.clientId == clientAvatarOwnerID) {
+                    client.SetAvatarType(avatarTypeMaterials[avatarMaterialIndex]);
+                    break;
+                }
+            }
+        }
     }
 }

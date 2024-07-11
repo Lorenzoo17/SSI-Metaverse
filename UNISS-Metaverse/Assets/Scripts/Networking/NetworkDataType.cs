@@ -6,5 +6,6 @@ public enum NetworkDataType {
     RemoteVisualClientPacket,
     VcRequest,
     VcResponse,
-    VcStringResponse
+    VcStringResponse,
+    AvatarType
 }

@@ -13,6 +13,7 @@ public class RemoteClientSync : MonoBehaviour
 
     [SerializeField] private PressableButton requestButton; // Pressable button or whatever it is
 
+    [SerializeField] private SkinnedMeshRenderer materialRenderer;
     private void Start() {
         // When a local user clicks the request button can select which data wants from the user connected to the remoteclient
         requestButton.OnClicked.AddListener(() => {
@@ -33,5 +34,14 @@ public class RemoteClientSync : MonoBehaviour
     public void SetLeftArm(Vector3 pos, Quaternion rot) {
         testLeftArm.position = pos;
         testLeftArm.rotation = rot;
+    }
+
+
+    // ---------- Avatar methods ----------
+    public void SetAvatarType(Material materialToSet) {
+        Material[] mat = new Material[1];
+        mat[0] = materialToSet;
+
+        materialRenderer.materials = mat;
     }
 }

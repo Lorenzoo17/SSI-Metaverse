@@ -16,6 +16,8 @@ public class ServerLite : MonoBehaviour {
     [SerializeField] private bool enableDebug = true;
 
     private List<NetPeer> peersConnected = new List<NetPeer>();
+
+    private Dictionary<int, int> avatarTypeForEachClient = new Dictionary<int, int>();
     public void StartServer() {
         listener = new();
         server = new NetManager(listener); // Create netManager passing the listener
@@ -148,6 +150,25 @@ public class ServerLite : MonoBehaviour {
                     }
                 }
             }
+            else if (packetType == NetworkDataType.AvatarType) {
+                int clientAvatarOwnerID = peer.Id;
+                int avatarTypeMaterialIndex = reader.GetInt();
+
+                if (enableDebug) Debug.Log($"Client {clientAvatarOwnerID} has avatar of type {avatarTypeMaterialIndex}");
+
+                if (avatarTypeForEachClient.ContainsKey(clientAvatarOwnerID)) {
+                    avatarTypeForEachClient.Remove(clientAvatarOwnerID);
+                }
+                avatarTypeForEachClient.Add(clientAvatarOwnerID, avatarTypeMaterialIndex);
+
+                foreach(NetPeer client in peersConnected) {
+                    if(client.Id != clientAvatarOwnerID) {
+                        ForwardAvatarType(clientAvatarOwnerID, client, avatarTypeMaterialIndex);
+
+                        ForwardAvatarType(client.Id, peer, avatarTypeForEachClient[client.Id]);
+                    }
+                }
+            }
         };
     }
 
@@ -248,5 +269,18 @@ public class ServerLite : MonoBehaviour {
         writer.Put(idClientToSync);
         writer.Put(headPos, headRotation, rightArmPos, rightArmRotation, leftArmPos, leftArmRotation);
         SendDataAllClients(writer, DeliveryMethod.ReliableUnordered);
+    }
+
+    // -------------------- Avatar methods
+
+    private void ForwardAvatarType(int clientAvatarOwnerID, NetPeer clientWhoWillReceivedAvatarType, int AvatarTypeIndex) {
+        NetworkDataType packetType = NetworkDataType.AvatarType;
+
+        NetDataWriter writer = new();
+        writer.Put((int)packetType);
+        writer.Put(clientAvatarOwnerID);
+        writer.Put(AvatarTypeIndex);
+
+        SendDataClient(clientWhoWillReceivedAvatarType, writer, DeliveryMethod.ReliableUnordered);
     }
 }
