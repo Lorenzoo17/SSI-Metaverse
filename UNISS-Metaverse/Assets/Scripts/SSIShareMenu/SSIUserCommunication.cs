@@ -172,6 +172,6 @@ public class SSIUserCommunication : MonoBehaviour {
         verifiableCredentialWindow.gameObject.SetActive(true);
         StandardVerifiableCredential svc = JsonUtility.FromJson<StandardVerifiableCredential>(verifiableCredentialToShowString);
         // verifiableCredentialWindow.SetVcText(verifiableCredentialToShowString);
-        verifiableCredentialWindow.SetVcText(svc.credentialSubject.ToString());
+        verifiableCredentialWindow.SetVcText(svc);
     }
 }
