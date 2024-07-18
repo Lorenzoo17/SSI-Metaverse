@@ -5,22 +5,24 @@ using TMPro;
 
 public class LineRendererTest : MonoBehaviour {
 
-    [SerializeField] private CloudDataAcquisition.CloudDataType cloudDataToRepresent;
-    [SerializeField] private LineRenderer lineRenderer;
-    [SerializeField] private Vector3[] valuesToInsert;
-    [SerializeField] private Vector3 scalingValue;
+    [SerializeField] private CloudDataAcquisition.CloudDataType cloudDataToRepresent; // Data that you want to visualise through this graph
+    [SerializeField] private LineRenderer lineRenderer; // LineRenderer used to represent the data along a line
+    [SerializeField] private Vector3[] valuesToInsert; // Values that will be included in the graph
+    [SerializeField] private Vector3 scalingValue; // How much strech the line based on the data that must be represented
 
-    [SerializeField] private int valueCurrentlyVisualized;
-    [SerializeField] private int valueToVisualizeEachTime;
-    [SerializeField] private float updateTime;
+    [SerializeField] private int valueCurrentlyVisualized; // Which data (in valuesToInsert) is being visualized (index)
+    [SerializeField] private int valueToVisualizeEachTime; // Range of values included in x-axis
+    [SerializeField] private float updateTime; // Retrieving data rate
     private float currentUpdateTime;
 
-    [SerializeField] private TextMeshProUGUI chartTitle;
+    [SerializeField] private TextMeshProUGUI chartTitle; // Title of the chart
 
+    // Y axis reference values
     [SerializeField] private TextMeshProUGUI yAxis_max;
     [SerializeField] private TextMeshProUGUI yAxis_mid;
     [SerializeField] private TextMeshProUGUI yAxis_min;
 
+    // X axis reference values
     [SerializeField] private TextMeshProUGUI xAxis_min;
     [SerializeField] private TextMeshProUGUI xAxis_mid;
     [SerializeField] private TextMeshProUGUI xAxis_max;
@@ -36,12 +38,12 @@ public class LineRendererTest : MonoBehaviour {
     }
 
     private void Update() {
-        if(valuesToInsert != null) {
-            if (currentUpdateTime <= 0) { // Time to show new data (will depend on difference in seconds between two measurements)
+        if(valuesToInsert != null) { // If data has been retrieved from the cloud
+            if (currentUpdateTime <= 0) { // Time to show new data (will depend on sensor acquisition rate, so on timestamp)
                 currentUpdateTime = updateTime;
 
                 if ((valueCurrentlyVisualized + valueToVisualizeEachTime) < valuesToInsert.Length) { // End of array has not reached yet
-                    VisualizeValues(valueCurrentlyVisualized, (valueCurrentlyVisualized + valueToVisualizeEachTime), valueToVisualizeEachTime);
+                    VisualizeValues(valueCurrentlyVisualized, (valueCurrentlyVisualized + valueToVisualizeEachTime), valueToVisualizeEachTime); // Therefore, lineRenderer is updated
                 }
                 else {
                     // restart (here a new call is performed and if it works well, through a boolean, the entire cycle repeats)
@@ -58,7 +60,7 @@ public class LineRendererTest : MonoBehaviour {
             }
         }
         else {
-            SetValuesFromTimeStamp(CloudDataAcquisition.Instance.GetCloudDataBasedOnType(cloudDataToRepresent));
+            SetValuesFromTimeStamp(CloudDataAcquisition.Instance.GetCloudDataBasedOnType(cloudDataToRepresent)); // Otherwise, try to read data from the cloud again
         }
     }
 
@@ -67,11 +69,11 @@ public class LineRendererTest : MonoBehaviour {
             int n_values = timestampData.Length;
             valuesToInsert = new Vector3[n_values];
 
-            float[] values = new float[n_values];
+            float[] values = new float[n_values]; // Values contained in timestampData
             for (int i = 0; i < timestampData.Length; i++) {
                 values[i] = timestampData[i].value;
             }
-            int[] seconds = new int[n_values];
+            int[] seconds = new int[n_values]; // Time reference for each value
             for (int i = 0; i < timestampData.Length; i++) {
                 seconds[i] = timestampData[i].GetSeconds();
             }
@@ -83,13 +85,14 @@ public class LineRendererTest : MonoBehaviour {
             float maxValue = values.Max();
             float minValue = values.Min();
 
+            // Change y axis references number based on values
             yAxis_max.text = maxValue.ToString();
             yAxis_mid.text = ((maxValue + minValue) / 2).ToString();
             yAxis_min.text = minValue.ToString();
 
             for (int i = 0; i < values.Length; i++) {
                 float normalizedValue = (values[i] - minValue) / (maxValue - minValue);
-                valuesToInsert[i] = new Vector3(seconds[i], normalizedValue, 0f);
+                valuesToInsert[i] = new Vector3(seconds[i], normalizedValue, 0f); // Update valuesToInsert
             }
 
             chartTitle.text = cloudDataToRepresent.ToString();

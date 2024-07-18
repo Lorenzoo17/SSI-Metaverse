@@ -23,7 +23,7 @@ public class VcMenu : MonoBehaviour {
         if(SSIRequestHandler.Instance != null) {
             
             if(SSIRequestHandler.Instance.GetUserVerifiableCredential_list().Count > 0) { // If number of credentials is greater than 0
-                List<StandardVerifiableCredential> vc_list = SSIRequestHandler.Instance.GetUserVerifiableCredential_list();
+                List<StandardVerifiableCredential> vc_list = SSIRequestHandler.Instance.GetUserVerifiableCredential_list(); // Get list of credentials from SSIRequestHandler
 
                 // SpawnVerifiableCredentialIcon(vc_list);
                 RefreshVerifiableCredentials(vc_list); // Update Menu

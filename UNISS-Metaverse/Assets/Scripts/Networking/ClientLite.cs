@@ -24,10 +24,10 @@ public class ClientLite : MonoBehaviour {
     [SerializeField] private Transform clientRightArm;
     [SerializeField] private Transform clientLeftArm;
 
-    private float currentTransmissionTime;
+    private float currentTransmissionTime; // Remote avatar update frequency
 
-    [SerializeField] private Material[] avatarTypeMaterials;
-    private int localClientMaterialIndex;
+    [SerializeField] private Material[] avatarTypeMaterials; // Contains possible materials to assing to client's avatar 
+    private int localClientMaterialIndex; // Material assigned to the local client
 
     public Material GetLocalAvatarType() {
         return avatarTypeMaterials[localClientMaterialIndex];
@@ -39,12 +39,10 @@ public class ClientLite : MonoBehaviour {
 
         client.Start();
         client.Connect(server_ip, portToConnect, connectionKey);
-        //GameObject test = Instantiate(test_go, new Vector3(0, 10f, 5f), Quaternion.identity);
 
         listener.PeerConnectedEvent += (peer) => {
             serverPeer = peer;
             if (enableDebug) Debug.Log("Client connected to " + serverPeer.Address + ", " + serverPeer.Port);
-            // GameObject test = Instantiate(test_go, new Vector3(0, 10f, 5f), Quaternion.identity);
 
             // Send Server information about client avatar
             // For now avatar type assigned randomly
@@ -66,17 +64,6 @@ public class ClientLite : MonoBehaviour {
                 int idClientToSync = reader.GetInt(); // Read id to understand which client I have to sync
                 reader.GetRemoteVisualSync(out Vector3 headPosition, out Quaternion headRotation, out Vector3 rightArmPosition, out Quaternion rightArmRotation, out Vector3 leftArmPosition, out Quaternion leftArmRotation);
 
-                if (enableDebug) {
-                    /*
-                    Debug.Log($"Received : {headPosition}" +
-                        $"{headRotation}" +
-                        $"{rightArmPosition}" +
-                        $"{rightArmRotation}" +
-                        $"{leftArmPosition}" +
-                        $"{leftArmRotation}");
-                    */
-                }
-
                 RemoteClientSync[] clientsVisuals = FindObjectsOfType<RemoteClientSync>();
                 if (clientsVisuals.Length > 0) {
                     foreach (RemoteClientSync client in clientsVisuals) {
@@ -90,14 +77,14 @@ public class ClientLite : MonoBehaviour {
                     }
                 }
             }
-            else if (packetType == NetworkDataType.SpawnPlayerRemote) {
+            else if (packetType == NetworkDataType.SpawnPlayerRemote) { 
                 int clientIdToSpawn = reader.GetInt();
 
                 if (enableDebug) Debug.Log($"Need to spawn client with ID : {clientIdToSpawn}");
 
-                GameObject remoteClientPrefab = Instantiate(NetworkPrefabs.Instance.playerRemotePrefab, transform.position, Quaternion.identity);
+                GameObject remoteClientPrefab = Instantiate(NetworkPrefabs.Instance.playerRemotePrefab, transform.position, Quaternion.identity); // Instantiate remote prefab
                 if (remoteClientPrefab.TryGetComponent<RemoteClientSync>(out RemoteClientSync remoteClient)) {
-                    remoteClient.clientId = clientIdToSpawn;
+                    remoteClient.clientId = clientIdToSpawn; // Assign to that remotePrefab the client ID of the client that it is necessary to spawn
                 }
             }
             else if (packetType == NetworkDataType.DespawnPlayerRemote) {
@@ -106,27 +93,27 @@ public class ClientLite : MonoBehaviour {
                 if (enableDebug) Debug.Log($"Need to despawn client with ID : {clientIdToDespawn}");
 
 
-                RemoteClientSync[] remoteClients = FindObjectsOfType<RemoteClientSync>();
+                RemoteClientSync[] remoteClients = FindObjectsOfType<RemoteClientSync>(); // Get all remote clients within the scene
                 if (remoteClients.Length > 0) {
                     foreach (RemoteClientSync client in remoteClients) {
-                        if (client.clientId == clientIdToDespawn) {
+                        if (client.clientId == clientIdToDespawn) { // If the id of the client that has left the session corresponds with the ID of one of the remote prefabs within the scene
                             if (enableDebug) Debug.Log($"Found client {client.clientId}");
 
-                            Destroy(client.gameObject);
+                            Destroy(client.gameObject); // Destroy the remotePrefab associated with that client
                         }
                     }
                 }
             }
-            else if (packetType == NetworkDataType.VcRequest) {
+            else if (packetType == NetworkDataType.VcRequest) { // If local client receive a Vc request
                 int clientWhoSentRequest = reader.GetInt(); // It is added server side
-                VerifiableCredentialType credentialAsked = (VerifiableCredentialType)reader.GetInt();
+                VerifiableCredentialType credentialAsked = (VerifiableCredentialType)reader.GetInt(); // Get type of the asked credential
 
                 Debug.Log($"Credential {credentialAsked.ToString()} requested from client {clientWhoSentRequest}");
-                SSIUserCommunication.Instance.EnableResponseWindow(clientWhoSentRequest, credentialAsked);
+                SSIUserCommunication.Instance.EnableResponseWindow(clientWhoSentRequest, credentialAsked); // Open enable response window (will show all the credentials of the type got above)
 
                 // Response is sent in SSIUserCommunication.cs
             }
-            else if (packetType == NetworkDataType.VcResponse) {
+            else if (packetType == NetworkDataType.VcResponse) { // If local client receive a simple Vc response 
                 int clientWhoSentResponse = reader.GetInt();
                 JsonClasses.StandardVerifiableCredential vcReceived = reader.GetVerifiableCredential();
 
@@ -134,7 +121,7 @@ public class ClientLite : MonoBehaviour {
 
                 SSIUserCommunication.Instance.SetUpVerifiableCredentialWindow(vcReceived); // In order to show the verifiable credential just received
             }
-            else if (packetType == NetworkDataType.VcStringResponse) {
+            else if (packetType == NetworkDataType.VcStringResponse) { // If local client receive a VC JSON response
                 int clientWhoSentResponse = reader.GetInt();
                 string vcStringReceived = reader.GetString();
 
@@ -159,7 +146,7 @@ public class ClientLite : MonoBehaviour {
         }
 
         if (currentTransmissionTime <= 0) {
-            SendRemoteVisualSync();
+            SendRemoteVisualSync(); // Update remote avatar visual
             currentTransmissionTime = 0.05f;
         }
         else {

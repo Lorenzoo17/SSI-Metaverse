@@ -141,25 +141,25 @@ namespace JsonClasses {
         public override string ToString() {
             var result = "credentialSubject:\n";
 
-            if (!string.IsNullOrEmpty(id))
+            if (id != default(string))
                 result += $"\"id\": \"{id}\"\n";
 
-            if (!string.IsNullOrEmpty(you))
+            if (you != default(string))
                 result += $"\"you\": \"{you}\"\n";
 
-            if (age != 0)
+            if (age != default(int))
                 result += $"\"age\": {age}\n";
 
-            if (!string.IsNullOrEmpty(license))
+            if (license != default(string))
                 result += $"\"license\": \"{license}\"\n";
 
-            if (heartbeat != 0)
+            if (heartbeat != default(int))
                 result += $"\"heartbeat\": {heartbeat}\n";
 
-            if (systolicPressure != 0)
+            if (systolicPressure != default(int))
                 result += $"\"systolicPressure\": {systolicPressure}\n";
 
-            if (diastolicPressure != 0)
+            if (diastolicPressure != default(int))
                 result += $"\"diastolicPressure\": {diastolicPressure}\n";
 
             return result.TrimEnd();
@@ -168,19 +168,19 @@ namespace JsonClasses {
         public string GetSpecificContent() { // Everything available except for DID and name
             var result = "CredentialSubject:\n";
 
-            if (age != 0)
+            if (age != default(int))
                 result += $"Age: {age}\n";
 
-            if (!string.IsNullOrEmpty(license))
+            if (license != default(string))
                 result += $"License: {license}\n";
 
-            if (heartbeat != 0)
+            if (heartbeat != default(int))
                 result += $"Heartbeat: {heartbeat}\n";
 
-            if (systolicPressure != 0)
+            if (systolicPressure != default(int))
                 result += $"Systolic Pressure: {systolicPressure}\n";
 
-            if (diastolicPressure != 0)
+            if (diastolicPressure != default(int))
                 result += $"Diastolic Pressure: {diastolicPressure}\n";
 
             return result.TrimEnd();
