@@ -6,7 +6,7 @@ The system implemented can be described as a simulation of a metaverse in which 
 They are required to insert username and password of their account and, once logged in correctly, they can decide to start a new session (become the host of a new Metaverse room) or join an already existying one.
 The HDT system comes with a SSI agent which manages all the information of the user. In particular, the agent communicates with the Metaverse and lets users to manage their Verifiable Credentials (VCs), Decentralized Identities (DIDs) and Verifiable Presentations (VP). 
 Once the user has logged in, looking at their hand they can access a menu which lets the user see:
-1) Their HDT avatar together with the data gathered from the wearable sensors they are currently wearing;
+1) Their HDT avatar together with the data retrieved from a cloud platform which is linked to the wearable sensors the user is currently wearing;
 2) A list of all their sensible data, stored as Verifiable Credentials;
 3) Information about their personal account (DID, username, ect...).
 
