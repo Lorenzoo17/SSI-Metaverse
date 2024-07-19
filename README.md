@@ -10,5 +10,5 @@ Once the user has logged in, looking at their hand they can access a menu which 
 2) A list of all their sensible data, stored as Verifiable Credentials;
 3) Information about their personal account (DID, username, ect...).
 
-Users can communicate with each other exchanging their Verifiable credentials thanks to the SSI agent associated with the Metaverse application. They can request a specific type of credential and the same time they can share the fields of the requested credential through the Selective Disclosure mechanism. Such a mechanism lets users to be sovereign of their data, selecting only the fields that they actually want to share with the remote user that made the request.  
+Users can communicate with each other exchanging their Verifiable credentials thanks to the SSI agent associated with the Metaverse application. They can request a specific type of credential and at the same time they can share the fields of the requested credential through the Selective Disclosure mechanism. Such a mechanism lets users to be sovereign of their data, selecting only the fields that they actually want to share with the remote user that made the request.  
 ## How to use
