@@ -8,7 +8,7 @@ public class GeneralUtilities : MonoBehaviour {
     [SerializeField] private GameObject thumbObject;
     [SerializeField] private GameObject middleObject;
     private void Update() {
-        if (XRSubsystemHelpers.HandsAggregator != null && (XRSubsystemHelpers.HandsAggregator.TryGetJoint(TrackedHandJoint.IndexTip, XRNode.LeftHand, out HandJointPose index) &&
+        if (XRSubsystemHelpers.HandsAggregator != null && (XRSubsystemHelpers.HandsAggregator.TryGetJoint(TrackedHandJoint.Wrist, XRNode.LeftHand, out HandJointPose index) &&
             XRSubsystemHelpers.HandsAggregator.TryGetJoint(TrackedHandJoint.ThumbTip, XRNode.LeftHand, out HandJointPose thumb) && XRSubsystemHelpers.HandsAggregator.TryGetJoint(TrackedHandJoint.MiddleIntermediate, XRNode.LeftHand, out HandJointPose middleInter))) {
             Vector3 indexTipPose = index.Pose.position;
             Vector3 thumbTipPose = thumb.Pose.position;

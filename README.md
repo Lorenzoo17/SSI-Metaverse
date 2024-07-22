@@ -12,3 +12,8 @@ Once the user has logged in, looking at their hand they can access a menu which 
 
 Users can communicate with each other exchanging their Verifiable credentials thanks to the SSI agent associated with the Metaverse application. They can request a specific type of credential and at the same time they can share the fields of the requested credential through the Selective Disclosure mechanism. Such a mechanism lets users to be sovereign of their data, selecting only the fields that they actually want to share with the remote user that made the request.  
 ## How to use
+It is necessary to start userDatabase and Veramo server.
+First of all, from Unity, could be useful to create a server-build in order to avoid having a host (client-server).  
+Then, opening the project and entering in play mode the user will find in front of them a window containing two fields: username and password. Here the user has to write the correct alias (which must be the same used to accesso both veramo and userDatabase).
+Then, a new window will appear. Here the user can decide to enter as a host or as a client. If the server-build has been previously made, the user can simply access the system as a client. 
+Now, the user can access all the functionalities described in the previous paragraph. 
