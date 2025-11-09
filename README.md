@@ -2,7 +2,7 @@
 
 ## Descrizione del sistema
 
-Il sistema sviluppato può essere descritto come una simulazione (**HIGH-FIDELITY PROTOTYPE**) di un metaverso in cui più utenti possono interagire tra loro. Una volta che l’utente si è registrato al sistema HDT, può accedere al Metaverso.
+Il sistema sviluppato rappresenta una simulazione (**HIGH-FIDELITY PROTOTYPE**) di un metaverso in cui più utenti possono interagire tra loro. Una volta che l’utente si è registrato al sistema HDT, può accedere al Metaverso.
 Gli viene richiesto di inserire username e password del proprio account e, una volta effettuato correttamente il login, può decidere se avviare una nuova sessione (diventando host di una nuova stanza del Metaverso) o unirsi a una già esistente.
 
 Il sistema HDT include un agente SSI che gestisce tutte le informazioni dell’utente. In particolare, l’agente comunica con il Metaverso e permette agli utenti di gestire le proprie Verifiable Credentials (VC), Decentralized Identities (DID) e Verifiable Presentations (VP).
