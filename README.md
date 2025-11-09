@@ -27,11 +27,10 @@ Gli utenti possono comunicare tra loro scambiandosi Verifiable Credentials grazi
   </tr>
   <tr>
     <td><img src="images/image7.png" width="300"></td>
-    <td><img src="images/image8.png" width="300"></td>
     <td><img src="images/image9.png" width="300"></td>
+    <td><img src="images/image10.png" width="300"></td>
   </tr>
   <tr>
-    <td><img src="images/image10.png" width="300"></td>
     <td><img src="images/image11.png" width="300"></td>
   </tr>
 </table>
