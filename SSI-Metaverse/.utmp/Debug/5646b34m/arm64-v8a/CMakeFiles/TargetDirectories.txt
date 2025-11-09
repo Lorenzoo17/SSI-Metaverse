@@ -1,0 +1,5 @@
+D:/Mascia/Programmi/Progetti Unity/Hololens_MRTK/.utmp/Debug/5646b34m/arm64-v8a/CMakeFiles/edit_cache.dir
+D:/Mascia/Programmi/Progetti Unity/Hololens_MRTK/.utmp/Debug/5646b34m/arm64-v8a/CMakeFiles/rebuild_cache.dir
+D:/Mascia/Programmi/Progetti Unity/Hololens_MRTK/.utmp/Debug/5646b34m/arm64-v8a/FramePacing/CMakeFiles/swappywrapper.dir
+D:/Mascia/Programmi/Progetti Unity/Hololens_MRTK/.utmp/Debug/5646b34m/arm64-v8a/FramePacing/CMakeFiles/edit_cache.dir
+D:/Mascia/Programmi/Progetti Unity/Hololens_MRTK/.utmp/Debug/5646b34m/arm64-v8a/FramePacing/CMakeFiles/rebuild_cache.dir

@@ -1,0 +1,5 @@
+CREATE TABLE user(
+    id INTEGER PRIMARY KEY,
+    alias TEXT NOT NULL,
+    psw TEXT NOT NULL
+);
