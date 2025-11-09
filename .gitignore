@@ -1,1 +1,38 @@
+# Unity generati automaticamente
+[Ll]ibrary/
+[Tt]emp/
+Obj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+MemoryCaptures/
+UserSettings/
+Assets/Plugins/Editor/
+
+# File ignorati da Visual Studio/JetBrains
+.vs/
+.idea/
+*.csproj
+*.sln
+*.user
+*.unityproj
+*.pidb
+*.suo
+*.userprefs
+
+# Database locali
+*.db
+*.sqlite
+
+# Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
+
+# Sistema operativo
+.DS_Store
+Thumbs.db
+
+# File dell'utente
+*.swp
+*.tmp
