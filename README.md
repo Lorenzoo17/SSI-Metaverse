@@ -16,23 +16,23 @@ Gli utenti possono comunicare tra loro scambiandosi Verifiable Credentials grazi
 
 <table align="center">
   <tr>
-    <td><img src="images/image1.png" width="240"></td>
-    <td><img src="images/image2.png" width="240"></td>
-    <td><img src="images/image3.png" width="240"></td>
+    <td><img src="images/image1.png" width="300"></td>
+    <td><img src="images/image2.png" width="300"></td>
+    <td><img src="images/image3.png" width="300"></td>
   </tr>
   <tr>
-    <td><img src="images/image4.png" width="240"></td>
-    <td><img src="images/image5.png" width="240"></td>
-    <td><img src="images/image6.png" width="240"></td>
+    <td><img src="images/image4.png" width="300"></td>
+    <td><img src="images/image5.png" width="300"></td>
+    <td><img src="images/image6.png" width="300"></td>
   </tr>
   <tr>
-    <td><img src="images/image7.png" width="240"></td>
-    <td><img src="images/image8.png" width="240"></td>
-    <td><img src="images/image9.png" width="240"></td>
+    <td><img src="images/image7.png" width="300"></td>
+    <td><img src="images/image8.png" width="300"></td>
+    <td><img src="images/image9.png" width="300"></td>
   </tr>
   <tr>
-    <td><img src="images/image10.png" width="240"></td>
-    <td><img src="images/image11.png" width="240"></td>
+    <td><img src="images/image10.png" width="300"></td>
+    <td><img src="images/image11.png" width="300"></td>
   </tr>
 </table>
 
