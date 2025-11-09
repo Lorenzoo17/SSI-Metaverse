@@ -14,6 +14,28 @@ Una volta effettuato l’accesso, guardando la propria mano l’utente può apri
 
 Gli utenti possono comunicare tra loro scambiandosi Verifiable Credentials grazie all’agente SSI integrato nell’applicazione del Metaverso. Possono richiedere uno specifico tipo di credenziale e, allo stesso tempo, decidere di condividere solo alcuni dei campi della credenziale richiesta attraverso il meccanismo di Selective Disclosure. Questo meccanismo permette agli utenti di mantenere la sovranità sui propri dati, scegliendo solo le informazioni che desiderano effettivamente condividere con l’utente remoto che ha effettuato la richiesta.
 
+<table align="center">
+  <tr>
+    <td><img src="images/image1.png" width="240"></td>
+    <td><img src="images/image2.png" width="240"></td>
+    <td><img src="images/image3.png" width="240"></td>
+  </tr>
+  <tr>
+    <td><img src="images/image4.png" width="240"></td>
+    <td><img src="images/image5.png" width="240"></td>
+    <td><img src="images/image6.png" width="240"></td>
+  </tr>
+  <tr>
+    <td><img src="images/image7.png" width="240"></td>
+    <td><img src="images/image8.png" width="240"></td>
+    <td><img src="images/image9.png" width="240"></td>
+  </tr>
+  <tr>
+    <td><img src="images/image10.png" width="240"></td>
+    <td><img src="images/image11.png" width="240"></td>
+  </tr>
+</table>
+
 ## FUNZIONAMENTO GENERALE
 
 È necessario avviare il database utenti (userDatabase) e il server Veramo.
@@ -23,6 +45,18 @@ Dopo il login, apparirà una nuova finestra: l’utente può scegliere se entrar
 A questo punto, l'utente può accedere a tutte le funzionalità descritte nel paragrafo precedente.
 
 ## COME AVVIARE IL SISTEMA
+
+Innanzitutto ricreare node_modules per "/Veramo" e "users_database":
+
+```
+cd SSI-Metaverse/HDT-Veramo_server/Veramo
+npm install   # oppure yarn install
+```
+
+```
+cd SSI-Metaverse/HDT-Veramo_server/users_database
+npm install  # oppure yarn install
+```
 
 ### PASSO 1 - AVVIO SERVER VERAMO E SERVER DB
 
@@ -74,7 +108,7 @@ il paradigma dell'SSI.
 
 
 
-## TECNOLOGIE USATE:
+## TECNOLOGIE USATE
 - Es per connessione a Cloud
 - Inverse kinematic per movimento degli avatar!
 - MRTK per HoloLens

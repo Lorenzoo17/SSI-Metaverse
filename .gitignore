@@ -20,10 +20,6 @@ Assets/Plugins/Editor/
 *.suo
 *.userprefs
 
-# Database locali
-*.db
-*.sqlite
-
 # Node.js
 node_modules/
 npm-debug.log
