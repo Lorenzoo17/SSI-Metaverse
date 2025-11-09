@@ -109,7 +109,65 @@ il paradigma dell'SSI.
 
 
 ## TECNOLOGIE USATE
-- Es per connessione a Cloud
-- Inverse kinematic per movimento degli avatar!
-- MRTK per HoloLens
-- ecc...
+
+### Tecnologie utilizzate e implementazione – Unity
+
+La parte Unity del progetto rappresenta l’ambiente immersivo del **Metaverso**, in cui gli utenti possono autenticarsi, interagire tramite avatar 3D e scambiarsi Verifiable Credentials (VC) in modo sicuro grazie al server SSI basato su Veramo.
+
+
+| Tecnologia / Framework | Utilizzo nel progetto |
+|------------------------|-------------------------|
+| **Unity (C#)** | Motore principale dell’applicazione, gestione logica client-side e rendering 3D |
+| **MRTK (Mixed Reality Toolkit)** | Input, UI 3D, interazione con mani/gesture su HoloLens 2 o simulatore |
+| **LiteNetLib (`ClientLite`, `ServerLite`)** | Comunicazione tra client nel metaverso (richieste, scambi di VC, posizioni avatar) |
+| **HTTP + UnityWebRequest/HttpClient** | Comunicazione verso: <br> - Database utenti (`users_database` via Express/SQLite) <br> - Server SSI Veramo (per DID, VC, VP) <br> - Risorse Cloud (dati sensori simulati) |
+| **JSON Serialization (`JsonUtility`)** | Conversione di VC, VP e dati cloud da/verso formato JSON |
+| **Inverse Kinematics (IK)** | Movimento realistico degli avatar in VR (`IKTargetFollowVRRig.cs`) |
+| **UI dinamica in VR/MR** | Finestre interattive per login, credenziali, dati salute, richieste SSI (`HdtMainMenu`, `SSIUserCommunication`) |
+| **Google Drive (Cloud simulato)** | Utilizzato come sorgente remota per dati sensoriali. File pubblici (`.txt`/`.json`) vengono scaricati e letti da Unity (`CloudDataAcquisition.cs`) tramite URL HTTP. Aggiornamento periodico con Coroutine. |
+
+Alcuni dei principali codici presenti nel progetto sono:
+
+| File | Funzione |
+|------|----------|
+| `UsersDbRequestHandler.cs` | Invia richieste HTTP al database utenti (Express + SQLite) per login e autenticazione |
+| `SSIRequestHandler.cs` | Gestisce richieste a Veramo (getDID, getVP, recupero credenziali), salvataggio delle VC in locale |
+| `SSIUserCommunication.cs` | Gestione della comunicazione SSI tra utenti: invio richieste di credential, risposta, Selective Disclosure in UI |
+| `ClientLite.cs / ServerLite.cs` | Gestisce la comunicazione in rete tra client (invio/ricezione messaggi VC, richieste, sincronizzazione utenti) |
+| `HdtMainMenu.cs` | Gestione dei menu XR: visualizzazione VC, dati utente (DID, alias), logout, parametri sensori |
+| `CloudDataAcquisition.cs` | Scarica periodicamente dati sensori simulati da Google Drive (temperatura corporea, ossigeno, rumore, sonno) |
+| `SimpleCloudDataWindow.cs` | Mostra a schermo i dati cloud aggiornati in tempo reale |
+| `IKTargetFollowVRRig.cs` | Applica inverse kinematics per mappare movimenti VR di testa e mani sull’avatar 3D |
+
+---
+
+### Tecnologie utilizzate e implementazione – Server SSI (Veramo)
+
+Il server Veramo costituisce la componente dedicata alla **Self-Sovereign Identity (SSI)** nel progetto.  
+Questa parte dell’applicativo permette di creare e gestire **Decentralized Identifiers (DID)**, **Verifiable Credentials (VC)** e **Verifiable Presentations (VP)**, che vengono utilizzati dagli utenti all’interno del metaverso per autenticarsi e scambiarsi informazioni in modo sicuro.
+
+| Tecnologia / Libreria | Utilizzo nel progetto |
+|------------------------|------------------------|
+| **Node.js** | Ambiente di esecuzione per il server SSI |
+| **TypeScript** | Linguaggio utilizzato per sviluppare l'agente Veramo in modo tipizzato e scalabile |
+| **Veramo Framework** | Core SSI per gestione DID, firma/verifica di VC e creazione di VP |
+| **Plugin Veramo** | Include: DIDManager, KeyManager, CredentialPlugin, DataStore, SelectiveDisclosure |
+| **SQLite + TypeORM** | Database locale (`database.sqlite`) utilizzato per salvare DID, chiavi, credenziali e messaggi SSI |
+| **KMS (Key Management System) + SecretBox** | Gestione sicura delle chiavi private con cifratura e storage locale |
+| **Ethereum (did:ethr:sepolia) + Infura** | Utilizzato come rete blockchain per registrare e risolvere DID decentralizzati su testnet Sepolia |
+| **Selective Disclosure** | Permette di creare Verifiable Presentations condividendo solo specifici campi (privacy-preserving) |
+| **DID Resolver Plugin** | Risoluzione dei DID tramite `ethr-did-resolver` e `web-did-resolver` |
+| **Express / HTTP** | Utilizzato per esporre API REST o JSON-RPC verso Unity o altri client |
+
+I file TypeScript nel server permettono di gestire le operazioni SSI:
+
+| File | Funzione |
+|------|----------|
+| `setup.ts` | Inizializza l’agente Veramo: configura DID, KMS, database SQLite, resolver, plugin e rete Ethereum (Sepolia via Infura). |
+| `create-identifier.ts`   | Crea un nuovo DID per l’agente o per un utente |
+| `create-credential.ts`   | Genera e firma una Verifiable Credential |
+| `verify-credential.ts`   | Verifica autenticità e firma di una VC |
+| `create-presentation.ts` | Crea una Verifiable Presentation (anche con Selective Disclosure) |
+| `list-identifiers.ts`    | Elenca tutti i DID creati e gestiti |
+| `list-credentials.ts`    | Mostra le credenziali salvate dall’agente SSI |
+| `test_server.ts`         | Avvia l’agente Veramo, configura plugin e storage |
